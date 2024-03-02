@@ -1,6 +1,8 @@
 from ctypes import cast
+from hmac import new
 from multiprocessing import Value
 from tabnanny import check
+from token import STAR
 from tracemalloc import start
 from turtle import st
 from typing import Union
@@ -291,7 +293,22 @@ class Move:
                 raise KingUnderAttack();
             else:
                 is_capture = True
-        return Move.move_piece_or_pawn(starting_board, piece, starting_pos, end_pos), is_capture
+        new_board = Move.move_piece_or_pawn(starting_board, piece, starting_pos, end_pos)
+        if piece == 'WK':
+            new_board.white_kingside_castle = False
+            new_board.white_queenside_castle = False
+        elif piece == 'BK':
+            new_board.black_kingside_castle = False
+            new_board.black_queenside_castle = False
+        elif starting_pos == (1, 1):
+            new_board.white_queenside_castle = False
+        elif starting_pos == (8, 1):
+            new_board.white_kingside_castle = False
+        elif starting_pos == (1, 8):
+            new_board.black_queenside_castle = False
+        elif starting_pos == (8, 8):
+            new_board.black_kingside_castle = False
+        return new_board, is_capture
 
     @staticmethod
     def move_piece_or_pawn(
@@ -356,8 +373,8 @@ class Move:
             opposite_colour = 'B'
             king_starting_pos = (5, 1)
         else:
-            check_kingside = starting_board.white_kingside_castle
-            check_queenside = starting_board.white_queenside_castle
+            check_kingside = starting_board.black_kingside_castle
+            check_queenside = starting_board.black_queenside_castle
             castling_rank = 8
             piece_colour = 'B'
             opposite_colour = 'W'
