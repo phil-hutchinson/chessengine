@@ -34,11 +34,7 @@ while(playing):
         matching_moves = filter(lambda m: m.move_notation == user_move_entry, all_moves)
         user_move: Move = next(matching_moves, None)
         if isinstance(user_move, Move):
-            under_attack = check_king_under_attack(user_move.new_board)
-            if under_attack:
-                print('ILLEGAL MOVE: LEAVES KING IN ATTACK')
-            else:
-                board = user_move.new_board
+            board = user_move.new_board
         else:
             print('MOVE NOT FOUND')
             
