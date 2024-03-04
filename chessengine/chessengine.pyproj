@@ -23,7 +23,7 @@
   <ItemGroup>
     <Compile Include="board.py" />
     <Compile Include="chessengine.py" />
-    <Compile Include="move.py" />
+    <Compile Include="ply.py" />
     <Compile Include="notation.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
