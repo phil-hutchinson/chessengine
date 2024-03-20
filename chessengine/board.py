@@ -1,7 +1,7 @@
 class Board:
     def __init__(self):
         self.squares = {}
-        self.next_to_move = 'W'
+        self.next_to_play = 'W'
         self.white_kingside_castle = True
         self.white_queenside_castle = True
         self.black_kingside_castle = True
@@ -29,7 +29,7 @@ class Board:
         for file in range(1, 9):
             self.squares[(file, 2)] = 'WP'
             self.squares[(file, 7)] = 'BP'
-        self.next_to_move = 'W'
+        self.next_to_play = 'W'
         self.white_kingside_castle = True
         self.white_queenside_castle = True
         self.black_kingside_castle = True
@@ -38,7 +38,7 @@ class Board:
         
     def copy_from(self, other: 'Board') -> None:
         self.squares = other.squares.copy()
-        self.next_to_move = other.next_to_move
+        self.next_to_play = other.next_to_play
         self.en_passant_file = other.en_passant_file
         self.white_kingside_castle = other.white_kingside_castle
         self.white_queenside_castle = other.white_queenside_castle
