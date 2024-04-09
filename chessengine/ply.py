@@ -15,10 +15,10 @@ class KingUnderAttack(Exception):
         super().__init__(self.message)
 
 class Ply:
-    def __init__(self, old_board: Board, new_board: Board, move_notation: str):
+    def __init__(self, old_board: Board, new_board: Board, ply_notation: str):
         self.old_board = old_board
         self.new_board = new_board
-        self.move_notation = move_notation
+        self.ply_notation = ply_notation
         
     @staticmethod
     def find_all_valid_plies(starting_board: Board) -> list['Ply']:
