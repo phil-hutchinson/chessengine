@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Optional, Union
 from board import Board
 from enum import Enum
 from ply import Ply
@@ -26,23 +26,24 @@ class Game:
             self.status = GameStatus.ACTIVE
             # TODO - look at board to determine GameStatus
         
+        self.victory_condition = victory_condition
         self.allow_forced_skip = (victory_condition == VictoryCondition.CHECKMATE)
         
     #make "move"
     def perform_ply(self, notation: str) -> bool:
-        if (notation == 'SKIP'):
-            return self.choose_skip()
+        if (notation == 'PASS'):
+            return self.perform_pass()
         all_plies = Ply.find_all_valid_plies(self.board)
         matching_plies = filter(lambda p: p.ply_notation == notation, all_plies)
         user_ply: Ply = next(matching_plies, None)
         if isinstance(user_ply, Ply):
             self.board = user_ply.new_board
-            # TODO check for victory conditions
+            self.check_for_victory(notation)
             return True
         else:
             return False
         
-    def choose_skip(self) -> bool:
+    def perform_pass(self) -> bool:
         if not self.allow_forced_skip:
             return False
         
@@ -61,5 +62,25 @@ class Game:
             self.status = GameStatus.DRAW
             
         return True
+    
+    def check_for_victory(self, notation: str) -> Optional[None]:
+        if self.victory_condition == VictoryCondition.CHECKMATE:
+            next_plies = Ply.find_all_valid_plies(self.board)
+            if not next_plies:
+                test_board = Board()
+                test_board.copy_from(self.board)
+                test_board.next_to_play = 'W' if test_board.next_to_play == 'B' else 'B'
+                is_in_check = Ply.king_left_under_attack(test_board)
+                if is_in_check:
+                    self.status = GameStatus.WHITE_VICTORY if self.board.next_to_play == 'B' else GameStatus.BLACK_VICTORY
+                else:
+                    self.status = GameStatus.DRAW
+        elif self.victory_condition == VictoryCondition.TOTAL_CAPTURE:
+            pass
+            #TODO
+        elif self.victory_condition == VictoryCondition.PAWN_PROMOTION:
+            pass
+            #TODO
+
         
         

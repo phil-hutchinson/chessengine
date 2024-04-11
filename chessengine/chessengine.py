@@ -5,7 +5,7 @@ print("Would you like to play chess?")
 
 game = Game()
 
-while(game.status == GameStatus.ACTIVE):
+while game.status == GameStatus.ACTIVE:
     game.board.print()
     user_ply_entry = input('Enter your move using coordinates, or QUIT to quit\n')
     if user_ply_entry == 'QUIT':
@@ -15,6 +15,15 @@ while(game.status == GameStatus.ACTIVE):
         if not is_valid:
             print('MOVE NOT FOUND')
             
+if game.status != GameStatus.ACTIVE:
+    #game concluded, not aboarted
+    game.board.print()
 
+if game.status == GameStatus.WHITE_VICTORY:
+    print("White Wins!")
+elif game.status == GameStatus.BLACK_VICTORY:
+    print("Black Wins!")
+elif game.status == GameStatus.DRAW:
+    print("it's a tie")
     
         
