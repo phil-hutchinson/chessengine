@@ -12,7 +12,7 @@ class GameStatus(Enum):
     
 class VictoryCondition(Enum):
     CHECKMATE = 1
-    TOTAL_CAPTURE = 2
+    TOTAL_CAPTURE = 2 # Note: impossible to win if there are kings on the board
     PAWN_PROMOTION = 3
     
 class Game:
@@ -27,7 +27,7 @@ class Game:
             # TODO - look at board to determine GameStatus
         
         self.victory_condition = victory_condition
-        self.allow_forced_skip = (victory_condition == VictoryCondition.CHECKMATE)
+        self.allow_forced_skip = (victory_condition != VictoryCondition.CHECKMATE)
         
     #make "move"
     def perform_ply(self, notation: str) -> bool:
@@ -64,6 +64,7 @@ class Game:
         return True
     
     def check_for_victory(self, notation: str) -> Optional[None]:
+        next_to_play = self.board.next_to_play
         if self.victory_condition == VictoryCondition.CHECKMATE:
             next_plies = Ply.find_all_valid_plies(self.board)
             if not next_plies:
@@ -72,15 +73,18 @@ class Game:
                 test_board.next_to_play = 'W' if test_board.next_to_play == 'B' else 'B'
                 is_in_check = Ply.king_left_under_attack(test_board)
                 if is_in_check:
-                    self.status = GameStatus.WHITE_VICTORY if self.board.next_to_play == 'B' else GameStatus.BLACK_VICTORY
+                    self.status = GameStatus.WHITE_VICTORY if next_to_play == 'B' else GameStatus.BLACK_VICTORY
                 else:
                     self.status = GameStatus.DRAW
         elif self.victory_condition == VictoryCondition.TOTAL_CAPTURE:
-            pass
-            #TODO
+            pieces_remaining_test = lambda square: square[0] == next_to_play
+            pieces_remaining = any(pieces_remaining_test(self.board.squares[key]) for key in self.board.squares)
+            if not pieces_remaining:
+                self.status = GameStatus.WHITE_VICTORY if next_to_play == 'B' else GameStatus.BLACK_VICTORY
+
         elif self.victory_condition == VictoryCondition.PAWN_PROMOTION:
-            pass
-            #TODO
+            if len(notation) > 4:
+                self.status = GameStatus.WHITE_VICTORY if next_to_play == 'B' else GameStatus.BLACK_VICTORY
 
         
         

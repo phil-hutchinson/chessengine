@@ -1,9 +1,11 @@
-from game import Game, GameStatus
+from game import Game, GameStatus, VictoryCondition
 
 
 print("Would you like to play chess?")
 
-game = Game()
+game = Game(victory_condition=VictoryCondition.CHECKMATE)
+# game = Game(victory_condition=VictoryCondition.TOTAL_CAPTURE)
+# game = Game(victory_condition=VictoryCondition.PAWN_PROMOTION)
 
 while game.status == GameStatus.ACTIVE:
     game.board.print()
