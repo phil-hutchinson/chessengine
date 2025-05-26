@@ -11,5 +11,3 @@ RUN apt-get update && apt-get install -y \
 RUN pip install --no-cache-dir debugpy
 
 COPY . .
-
-EXPOSE 5678

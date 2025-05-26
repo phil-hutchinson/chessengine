@@ -1,20 +1,3 @@
-import os
-
-# Start the debug server
-#if os.getenv("DEBUGMODE") == "1":
-if True:
-    # debug server
-    import debugpy
-    import platform
-
-    debugpy.listen(("0.0.0.0", 5678))
-    print("Waiting for debugger attach...")
-    debugpy.wait_for_client()
-    print("Running on:", platform.system(), platform.release())
-
-
-#application
-
 from game import Game, GameStatus, VictoryCondition
 
 
@@ -26,7 +9,7 @@ game = Game(victory_condition=VictoryCondition.CHECKMATE)
 
 while game.status == GameStatus.ACTIVE:
     game.board.print()
-    user_ply_entry = input('Enter your move using coordinates, or QUIT to quit\n')
+    user_ply_entry = input('Enter your move using coordinates (format: E2E4), or QUIT to quit\n').upper()
     if user_ply_entry == 'QUIT':
         break
     else:

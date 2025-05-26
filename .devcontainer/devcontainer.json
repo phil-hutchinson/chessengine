@@ -3,7 +3,6 @@
   "build": {
     "dockerfile": "Dockerfile"
   },
-  "forwardPorts": [5678],
   "settings": {
     "terminal.integrated.shell.linux": "/bin/bash",
     "python.defaultInterpreterPath": "/usr/local/bin/python"
