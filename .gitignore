@@ -1,21 +1,35 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
-
-# Virtual environments
-env/
-venv/
-
-# Distribution / packaging
-build/
-dist/
+*.pyd
+*.egg
 *.egg-info/
+dist/
+build/
+*.log
+*.sqlite3
+.env
+*.env
 
-# IDE/editor settings
+# VS Code
 .vscode/
-.idea/
+*.code-workspace
 
-# OS files
+# Dev Containers
+.devcontainer/.python-version
+.devcontainer/.venv/
+.devcontainer/*.bak
+.devcontainer/devcontainer.json~
+
+# macOS
 .DS_Store
+
+# Windows
 Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Docker (optional if using bind mounts only)
+*.pid
+*.sock
