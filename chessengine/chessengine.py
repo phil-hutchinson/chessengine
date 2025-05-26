@@ -1,3 +1,20 @@
+import os
+
+# Start the debug server
+#if os.getenv("DEBUGMODE") == "1":
+if True:
+    # debug server
+    import debugpy
+    import platform
+
+    debugpy.listen(("0.0.0.0", 5678))
+    print("Waiting for debugger attach...")
+    debugpy.wait_for_client()
+    print("Running on:", platform.system(), platform.release())
+
+
+#application
+
 from game import Game, GameStatus, VictoryCondition
 
 
@@ -18,7 +35,7 @@ while game.status == GameStatus.ACTIVE:
             print('MOVE NOT FOUND')
             
 if game.status != GameStatus.ACTIVE:
-    #game concluded, not aboarted
+    #game concluded, not aborted
     game.board.print()
 
 if game.status == GameStatus.WHITE_VICTORY:
